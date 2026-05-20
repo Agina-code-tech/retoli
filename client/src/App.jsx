@@ -7,8 +7,7 @@ import './App.css';
 function App() {
   const [count, setCount] = useState(0);
 
-  return;
-  ('Hey there');
+  return <h1 className="text3x1 font-bold ">Hey there</h1>;
 }
 
 export default App;
