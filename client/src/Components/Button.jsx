@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
-export default function Button({ text, to, variant = 'primary' }) {
+function Button({ text, to, variant = 'primary' }) {
   const navigate = useNavigate();
 
   const base = 'px-6 py-3 rounded-lg font-medium transition';
@@ -18,3 +18,5 @@ export default function Button({ text, to, variant = 'primary' }) {
     </button>
   );
 }
+
+export default Button;
