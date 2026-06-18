@@ -13,8 +13,11 @@ Message displayed
 Loading stops*/
 
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 function SignInForm() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -53,7 +56,7 @@ function SignInForm() {
 
       setMessage('Sign in successful!');
 
-      // Optional: redirect after login
+      navigate('/dashboard'); //react router redirecting
     } catch (error) {
       console.error(error);
       setMessage('Could not connect to the server.');
@@ -63,43 +66,81 @@ function SignInForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign In</h2>
+    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+      <div className="w-full max-w-md bg-gray-900 rounded-2xl p-8 border border-purple-900 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-purple-500">Welcome Back</h2>
 
-      <div>
-        <label>Email:</label>
-        <br />
-        <input
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          placeholder="Enter your email"
-          required
-        />
+          <div className="w-20 h-1 bg-purple-500 mx-auto rounded-full mt-3 mb-4"></div>
+
+          <p className="text-gray-400">Sign in to your account</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Email */}
+          <div>
+            <label className="block text-gray-200 font-medium mb-2">
+              Email
+            </label>
+
+            <input
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="Enter your email"
+              required
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            />
+          </div>
+
+          {/* Password */}
+          <div>
+            <label className="block text-gray-200 font-medium mb-2">
+              Password
+            </label>
+
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Enter your password"
+              required
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition"
+            />
+          </div>
+
+          {message && (
+            <div
+              className={`p-3 rounded-lg text-center font-medium ${
+                message.toLowerCase().includes('success')
+                  ? 'bg-green-900/30 text-green-400 border border-green-800'
+                  : 'bg-red-900/30 text-red-400 border border-red-800'
+              }`}
+            >
+              {message}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full bg-gradient-to-r from-purple-600 to-violet-700 hover:from-purple-700 hover:to-violet-800 text-white font-semibold py-3 rounded-lg transition duration-300 disabled:bg-gray-700 disabled:cursor-not-allowed"
+          >
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </button>
+
+          <p className="text-center text-gray-400">
+            Don't have an account?{' '}
+            <Link
+              to="/signup"
+              className="text-purple-400 hover:text-purple-300 font-semibold"
+            >
+              Sign Up
+            </Link>
+          </p>
+        </form>
       </div>
-
-      <br />
-
-      <div>
-        <label>Password:</label>
-        <br />
-        <input
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          placeholder="Enter your password"
-          required
-        />
-      </div>
-
-      <br />
-
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Signing in...' : 'Sign In'}
-      </button>
-
-      {message && <p>{message}</p>}
-    </form>
+    </div>
   );
 }
 

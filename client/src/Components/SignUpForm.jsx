@@ -12,9 +12,12 @@ Form is cleared.
 Loading stops.*/
 
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 
 //Form state, this creates a state variable called formData, it's a form containing all values
 function SignUpForm() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -94,8 +97,8 @@ function SignUpForm() {
         confirmPassword: '',
       });
 
-      // Optional: redirect to login page after registration
-      // window.location.href = '/login';
+      navigate('/dashboard');
+      // (use react router instead)
     } catch (error) {
       console.error(error);
       setMessage('Could not connect to the server.');
@@ -106,145 +109,196 @@ function SignUpForm() {
 
   //runs where user clicks on sign up
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Sign Up</h2>
+    <div className="min-h-screen bg-black flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-4xl bg-gray-900 rounded-2xl p-8 border border-purple-900 shadow-[0_0_30px_rgba(168,85,247,0.15)]">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold text-purple-500">Create Account</h2>
 
-      <div>
-        <label>First Name:</label>
-        <br />
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName} //controlled components, react controls the value, basically all inputs, not the browser
-          onChange={handleChange} //runs everytime user types
-          required
-        />
+          <div className="w-20 h-1 bg-purple-500 mx-auto rounded-full mt-3 mb-4"></div>
+
+          <p className="text-gray-400">Join Retoli Today!</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div className="grid md:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                First Name
+              </label>
+
+              <input
+                type="text"
+                name="firstName"
+                value={formData.firstName} //controlled components, react controls the value, basically all inputs, not the browser
+                onChange={handleChange} //runs everytime user types
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Last Name
+              </label>
+
+              <input
+                type="text"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Username
+              </label>
+
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Email
+              </label>
+
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Phone
+              </label>
+
+              <input
+                type="text"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Date of Birth
+              </label>
+
+              <input
+                type="date"
+                name="dob"
+                value={formData.dob}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-gray-200 font-medium mb-2">
+              Gender
+            </label>
+
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              <option value="">Select Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-5">
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Password
+              </label>
+
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-200 font-medium mb-2">
+                Confirm Password
+              </label>
+
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 text-white rounded-lg placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+          </div>
+
+          {message && (
+            <div
+              className={`p-3 rounded-lg text-center font-medium ${
+                message.toLowerCase().includes('successful')
+                  ? 'bg-green-900/30 text-green-400 border border-green-800'
+                  : 'bg-red-900/30 text-red-400 border border-red-800'
+              }`}
+            >
+              {message}
+            </div>
+          )}
+
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-gradient-to-r from-purple-600 to-violet-700 hover:from-purple-700 hover:to-violet-800 text-white font-semibold py-3 rounded-lg transition duration-300 disabled:bg-gray-700 disabled:cursor-not-allowed"
+          >
+            {loading ? 'Registering...' : 'Create Account'}
+          </button>
+
+          <p className="text-center text-gray-400">
+            Already have an account?{' '}
+            <Link
+              to="/signin"
+              className="text-purple-400 hover:text-purple-300 font-semibold"
+            >
+              Sign In
+            </Link>
+          </p>
+        </form>
       </div>
-
-      <br />
-
-      <div>
-        <label>Last Name:</label>
-        <br />
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Username:</label>
-        <br />
-        <input
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Email:</label>
-        <br />
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Phone:</label>
-        <br />
-        <input
-          type="text"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Date of Birth:</label>
-        <br />
-        <input
-          type="date"
-          name="dob"
-          value={formData.dob}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Gender:</label>
-        <br />
-        <select
-          name="gender"
-          value={formData.gender}
-          onChange={handleChange}
-          required
-        >
-          <option value="">Select gender</option>
-          <option value="male">Male</option>
-          <option value="female">Female</option>
-          <option value="other">Other</option>
-        </select>
-      </div>
-
-      <br />
-
-      <div>
-        <label>Password:</label>
-        <br />
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <div>
-        <label>Confirm Password:</label>
-        <br />
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-        />
-      </div>
-
-      <br />
-
-      <button type="submit" disabled={loading}>
-        {loading ? 'Registering...' : 'Register'}
-      </button>
-
-      {message && <p>{message}</p>}
-    </form>
+    </div>
   );
 }
 
