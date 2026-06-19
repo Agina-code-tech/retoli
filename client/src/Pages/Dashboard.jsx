@@ -9,36 +9,21 @@ function Dashboard() {
   useEffect(() => {
     async function fetchUsers() {
       try {
-        const token = localStorage.getItem('token');
-
         const response = await fetch(
           'https://charity-minds-backend.onrender.com/api/v1/users',
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
         );
 
-        const data = await response.json();
-
-        // This lets you see EXACTLY what the server replied with in your Console tab
-        console.log('Backend response payload:', data);
+        const result = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message || 'Failed to fetch users');
+          throw new Error(result.message || 'Failed to fetch users');
         }
 
-        // --- FIXED: TYPE SAFETY VALIDATION FOR ALL BACKEND LAYOUTS ---
-        if (data.users && Array.isArray(data.users)) {
-          setUsers(data.users);
-        } else if (data.data && Array.isArray(data.data)) {
-          setUsers(data.data); // Handles endpoints that wrap arrays inside a generic 'data' key
-        } else if (Array.isArray(data)) {
-          setUsers(data); // Handles endpoints that return a direct array []
+        if (result.success && Array.isArray(result.data)) {
+          setUsers(result.data);
         } else {
           throw new Error(
-            'Server response succeeded but did not return an array of users.',
+            'Server response structure does not match documentation.',
           );
         }
       } catch (err) {
@@ -50,34 +35,6 @@ function Dashboard() {
 
     fetchUsers();
   }, []);
-  const totalUsers = users.length;
-
-  const currentMonth = new Date().getMonth();
-  const currentYear = new Date().getFullYear();
-
-  const usersThisMonth = users.filter((user) => {
-    const date = new Date(user.createdAt);
-
-    return (
-      date.getMonth() === currentMonth && date.getFullYear() === currentYear
-    );
-  }).length;
-
-  const filteredUsers = users.filter((user) => {
-    if (!selectedMonth) return true;
-
-    const month = new Date(user.createdAt).getMonth() + 1;
-
-    return month === Number(selectedMonth);
-  });
-
-  if (loading) {
-    return <div className="p-8 text-center text-lg">Loading users...</div>;
-  }
-
-  if (error) {
-    return <div className="p-8 text-center text-red-500">{error}</div>;
-  }
 
   return (
     <div className="min-h-screen bg-black p-6">
